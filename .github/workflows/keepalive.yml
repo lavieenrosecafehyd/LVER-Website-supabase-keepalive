@@ -1,10 +1,25 @@
 name: Keep Supabase Awake
+
 on:
-  schedule: [{cron: "0 6 */3 * *"}]
+  schedule:
+    - cron: "0 6 */3 * *"
   workflow_dispatch:
+
 jobs:
   keepalive:
     runs-on: ubuntu-latest
+
     steps:
-      - run: |
-          curl --fail -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" "${{ secrets.SUPABASE_URL }}/rest/v1/contact_inquiries?select=id&limit=1"
+      - name: Ping Supabase REST API
+        run: |
+          curl --fail \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/contact_inquiries?select=id&limit=1"
+
+      - name: Ping Franchise Table
+        run: |
+          curl --fail \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/franchise_inquiries?select=id&limit=1"
