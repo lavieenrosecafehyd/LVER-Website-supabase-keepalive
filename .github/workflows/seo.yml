@@ -1,13 +1,21 @@
 name: SEO Check
+
 on:
-  schedule: [{cron: "0 8 * * 1"}]
+  schedule:
+    - cron: "15 8 * * 1"
   workflow_dispatch:
+
 jobs:
   seo:
     runs-on: ubuntu-latest
+
     steps:
-      - run: |
+      - name: Download Homepage
+        run: |
           curl -L https://lavieenrosecafe.in > index.html
+
+      - name: Check SEO Tags
+        run: |
           grep -i "<title>" index.html
-          grep -i "meta name=\"description\"" index.html
+          grep -i 'meta name="description"' index.html
           grep -i "canonical" index.html
