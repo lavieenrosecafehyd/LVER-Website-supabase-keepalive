@@ -1,11 +1,19 @@
 name: Forms Check
+
 on:
-  schedule: [{cron: "0 7 * * *"}]
+  schedule:
+    - cron: "30 7 * * *"
   workflow_dispatch:
+
 jobs:
   forms:
     runs-on: ubuntu-latest
+
     steps:
-      - run: |
-          curl --fail https://lavieenrosecafe.in/locations.html
-          curl --fail https://lavieenrosecafe.in/franchise.html
+      - name: Check Locations Page
+        run: |
+          curl --fail --silent --show-error https://lavieenrosecafe.in/locations.html
+
+      - name: Check Franchise Page
+        run: |
+          curl --fail --silent --show-error https://lavieenrosecafe.in/franchise.html
