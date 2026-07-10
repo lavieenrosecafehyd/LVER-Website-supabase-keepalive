@@ -1,12 +1,23 @@
 name: Security Check
+
 on:
-  schedule: [{cron: "30 6 * * 1"}]
+  schedule:
+    - cron: "30 6 * * 1"
   workflow_dispatch:
+
 jobs:
   security:
     runs-on: ubuntu-latest
+
     steps:
-      - run: |
-          curl -I https://lavieenrosecafe.in
-          curl --fail https://lavieenrosecafe.in/robots.txt
-          curl --fail https://lavieenrosecafe.in/sitemap.xml
+      - name: Check HTTPS
+        run: |
+          curl --fail --silent --show-error -I https://lavieenrosecafe.in
+
+      - name: Check robots.txt
+        run: |
+          curl --fail --silent --show-error https://lavieenrosecafe.in/robots.txt
+
+      - name: Check sitemap.xml
+        run: |
+          curl --fail --silent --show-error https://lavieenrosecafe.in/sitemap.xml
