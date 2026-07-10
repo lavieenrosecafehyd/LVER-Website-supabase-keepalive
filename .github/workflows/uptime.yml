@@ -1,9 +1,23 @@
 name: Website Uptime
+
 on:
-  schedule: [{cron: "0 * * * *"}]
+  schedule:
+    - cron: "15 * * * *"
   workflow_dispatch:
+
 jobs:
-  check:
+  uptime:
     runs-on: ubuntu-latest
+
     steps:
-      - run: curl --fail https://lavieenrosecafe.in
+      - name: Check Website
+        run: |
+          curl --fail --silent --show-error https://lavieenrosecafe.in
+
+      - name: Check Booking Page
+        run: |
+          curl --fail --silent --show-error https://lavieenrosecafe.in/booking
+
+      - name: Check Franchise Page
+        run: |
+          curl --fail --silent --show-error https://lavieenrosecafe.in/franchise
